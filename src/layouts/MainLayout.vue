@@ -1,14 +1,33 @@
-<script setup></script>
+<script setup>
+import { useRouter } from 'vue-router'
+import TooltipDelay from 'src/components/tooltipDelay.vue'
+
+const router = useRouter()
+</script>
 
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header class="bg-white text-black">
-      <q-toolbar>
+      <q-toolbar class="row justify-between">
         <div class="q-pa-sm">
-          <q-img src="logo_2021.png" width="80px" />
+          <q-img
+            class="pointer"
+            src="logo_2021.png"
+            width="80px"
+            @click="router.push('/')"
+          />
         </div>
+        <div class="q-pa-sm q-gutter-x-sm row">
+          <q-btn icon="svguse:icons.svg#power" round flat color="green-10">
+            <TooltipDelay msg="ALL POWER"></TooltipDelay>
+          </q-btn>
 
-        <div class="row justify-start content-start">KIA</div>
+          <q-separator vertical inset />
+
+          <q-btn icon="settings" color="grey-8" round flat>
+            <TooltipDelay msg="Setting" />
+          </q-btn>
+        </div>
       </q-toolbar>
     </q-header>
 
