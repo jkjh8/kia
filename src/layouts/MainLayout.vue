@@ -18,7 +18,7 @@ const router = useRouter()
           />
         </div>
         <div class="q-pa-sm q-gutter-x-sm row">
-          <q-btn icon="svguse:icons.svg#power" round flat color="green-10">
+          <q-btn icon="power_settings_new" round flat color="green-10">
             <TooltipDelay msg="ALL POWER"></TooltipDelay>
           </q-btn>
 
@@ -26,6 +26,10 @@ const router = useRouter()
 
           <q-btn icon="settings" color="grey-8" round flat>
             <TooltipDelay msg="Setting" />
+          </q-btn>
+
+          <q-btn icon="dns" color="grey-8" round flat>
+            <TooltipDelay msg="Devices" />
           </q-btn>
         </div>
       </q-toolbar>

@@ -30,7 +30,7 @@ import { poweramps } from 'src/composables/poweramps'
         {
           name: 'actions',
           align: 'center',
-          label: 'Actions'
+          label: 'ACTIONS'
         }
       ]"
       :rows="poweramps"
