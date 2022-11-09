@@ -1,17 +1,38 @@
 <script setup>
+import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
 
-import TooltipDelay from 'src/components/tooltipDelay.vue'
+import { getSetup } from 'src/composables/useSetup'
+
+import ControlBtns from 'src/components/ControlBtns.vue'
 
 const $r = useRouter()
 const $q = useQuasar()
+
+onMounted(() => {
+  FN.onResponse((args) => {
+    switch (args.type) {
+      case 'setup':
+        getSetup(args.value)
+        break
+      case 'poweramps':
+        break
+      default:
+        console.log('args')
+        break
+    }
+  })
+
+  FN.onRequest({ command: 'started' })
+})
 
 $q.dark.set(true)
 </script>
 
 <template>
   <q-layout view="lHh Lpr lFf">
+    <!-- header -->
     <q-header class="text-grey-2" style="background: #00000000">
       <q-toolbar class="row justify-between">
         <div class="q-pa-sm q-gutter-x-md row items-center">
@@ -22,24 +43,12 @@ $q.dark.set(true)
             <div class="header-font">전원 제어</div>
           </div>
         </div>
-        <div class="q-pa-sm q-gutter-x-sm row">
-          <q-btn icon="power_settings_new" round flat color="green-8">
-            <TooltipDelay msg="ALL POWER"></TooltipDelay>
-          </q-btn>
-
-          <q-separator vertical inset />
-
-          <q-btn icon="settings" color="grey-4" round flat>
-            <TooltipDelay msg="Setting" />
-          </q-btn>
-
-          <q-btn icon="dns" color="grey-4" round flat>
-            <TooltipDelay msg="Devices" />
-          </q-btn>
-        </div>
+        <!-- control buttons -->
+        <ControlBtns />
       </q-toolbar>
     </q-header>
 
+    <!-- body -->
     <q-page-container>
       <router-view />
     </q-page-container>

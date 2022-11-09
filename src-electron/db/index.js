@@ -10,9 +10,6 @@ function dbInit(file) {
   })
 }
 
-const db = {
-  list: dbInit('poweramps'),
-  setup: dbInit('setup')
-}
+const db = dbInit('datastore')
 
 export default db

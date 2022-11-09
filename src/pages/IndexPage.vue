@@ -1,5 +1,5 @@
 <script setup>
-import { poweramps } from 'src/composables/poweramps'
+import { poweramps } from 'src/composables/usePoweramps'
 </script>
 
 <template>
