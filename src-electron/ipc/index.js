@@ -1,5 +1,6 @@
 import { BrowserWindow, ipcMain } from 'electron'
 import db from '../db'
+import { createMulticast } from '../net/multicast'
 
 ipcMain.on('onRequest', async (e, args) => {
   const mw = BrowserWindow.fromId(1)
@@ -23,6 +24,7 @@ ipcMain.on('onRequest', async (e, args) => {
           type: 'setup',
           value: await db.findOne({ type: 'setup' })
         })
+        createMulticast()
         break
       default:
         console.log(args)
