@@ -1,11 +1,21 @@
 import { BrowserWindow, ipcMain } from 'electron'
 import db from '../db'
+
+import { getPoweramps, addPoweramp, removePoweramp } from './powerampFunctions'
 import { createMulticast } from '../net/multicast'
 
 ipcMain.on('onRequest', async (e, args) => {
   const mw = BrowserWindow.fromId(1)
   try {
     switch (args.command) {
+      case 'started':
+        getPoweramps()
+        mw.webContents.send('onResponse', {
+          type: 'setup',
+          value: await db.findOne({ type: 'setup' })
+        })
+        // createMulticast()
+        break
       case 'setSetup':
         await db.update(
           { type: 'setup' },
@@ -19,12 +29,17 @@ ipcMain.on('onRequest', async (e, args) => {
           value: await db.findOne({ type: 'setup' })
         })
         break
-      case 'started':
-        mw.webContents.send('onResponse', {
-          type: 'setup',
-          value: await db.findOne({ type: 'setup' })
-        })
-        createMulticast()
+      case 'getPoweramps':
+        getPoweramps()
+        break
+
+      case 'addPoweramp':
+        await addPoweramp(args.value)
+        getPoweramps()
+        break
+      case 'removePoweramp':
+        await removePoweramp(args.value)
+        getPoweramps()
         break
       default:
         console.log(args)

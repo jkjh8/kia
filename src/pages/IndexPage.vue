@@ -1,5 +1,20 @@
 <script setup>
-import { poweramps } from 'src/composables/usePoweramps'
+import { useQuasar } from 'quasar'
+import DeviceRemoveDialog from 'src/components/dialogs/deviceRemoveDialog'
+import { poweramps, removePoweramp } from 'src/composables/usePoweramps'
+
+const $q = useQuasar()
+
+const openDeviceRemoveDialog = (args) => {
+  $q.dialog({
+    component: DeviceRemoveDialog,
+    componentProps: { item: args }
+  }).onOk(async (item) => {
+    console.log(item)
+    $q.loading.show()
+    removePoweramp(item)
+  })
+}
 </script>
 
 <template>
@@ -10,7 +25,7 @@ import { poweramps } from 'src/composables/usePoweramps'
           name: 'id',
           align: 'center',
           label: 'ID',
-          field: 'ID',
+          field: 'id',
           sortable: true
         },
         {
@@ -38,6 +53,33 @@ import { poweramps } from 'src/composables/usePoweramps'
       :pagination="{
         rowsPerPage: 0
       }"
-    ></q-table>
+    >
+      <template #body="props">
+        <q-tr :props="props">
+          <q-td key="id" :props="props">
+            {{ props.row.id }}
+          </q-td>
+          <q-td key="name" :props="props">
+            {{ props.row.name }}
+          </q-td>
+          <q-td key="status" :props="props">
+            {{ props.row.status }}
+          </q-td>
+          <q-td key="actions" :props="props">
+            <div class="q-gutter-x-sm row no-wrap justify-center">
+              <q-btn round flat size="sm" icon="power_settings_new" />
+              <q-btn
+                round
+                flat
+                size="sm"
+                color="red-10"
+                icon="delete"
+                @click="openDeviceRemoveDialog(props.row)"
+              />
+            </div>
+          </q-td>
+        </q-tr>
+      </template>
+    </q-table>
   </q-page>
 </template>

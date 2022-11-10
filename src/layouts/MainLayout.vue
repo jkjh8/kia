@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
 
 import { getSetup } from 'src/composables/useSetup'
+import { poweramps } from 'src/composables/usePoweramps'
 
 import ControlBtns from 'src/components/ControlBtns.vue'
 
@@ -17,11 +18,14 @@ onMounted(() => {
         getSetup(args.value)
         break
       case 'poweramps':
+        console.log(args.value)
+        poweramps.value = args.value
         break
       default:
         console.log('args')
         break
     }
+    $q.loading.hide()
   })
 
   FN.onRequest({ command: 'started' })
