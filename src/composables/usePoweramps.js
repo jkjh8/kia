@@ -15,4 +15,8 @@ const removePoweramp = (args) => {
   FN.onRequest({ command: 'removePoweramp', value: args })
 }
 
-export { poweramps, addPoweramp, getPoweramps, removePoweramp }
+const changePower = (args) => {
+  FN.onRequest({ command: 'power', value: args })
+}
+
+export { poweramps, addPoweramp, getPoweramps, removePoweramp, changePower }

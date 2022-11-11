@@ -1,8 +1,11 @@
 import { BrowserWindow, ipcMain } from 'electron'
 import db from '../db'
 
+import { getSetup, setSetup } from './setupFunctions'
 import { getPoweramps, addPoweramp, removePoweramp } from './powerampFunctions'
 import { createMulticast } from '../net/multicast'
+
+let setupValue
 
 ipcMain.on('onRequest', async (e, args) => {
   const mw = BrowserWindow.fromId(1)
@@ -10,24 +13,15 @@ ipcMain.on('onRequest', async (e, args) => {
     switch (args.command) {
       case 'started':
         getPoweramps()
-        mw.webContents.send('onResponse', {
-          type: 'setup',
-          value: await db.findOne({ type: 'setup' })
-        })
-        // createMulticast()
+        setupValue = await getSetup()
+        console.log(setupValue)
+        createMulticast()
         break
       case 'setSetup':
-        await db.update(
-          { type: 'setup' },
-          { $set: { value: args.value } },
-          { upsert: true }
-        )
+        setSetup(args.value)
         break
       case 'getSetup':
-        mw.webContents.send('onResponse', {
-          type: 'setup',
-          value: await db.findOne({ type: 'setup' })
-        })
+        setupValue = await getSetup()
         break
       case 'getPoweramps':
         getPoweramps()
@@ -40,6 +34,13 @@ ipcMain.on('onRequest', async (e, args) => {
       case 'removePoweramp':
         await removePoweramp(args.value)
         getPoweramps()
+        break
+      case 'power':
+        console.log(args.value)
+        mw.webContents.send('onResponse', {
+          type: 'response',
+          value: 'ok'
+        })
         break
       default:
         console.log(args)

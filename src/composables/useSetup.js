@@ -20,7 +20,11 @@ const getSetup = (args) => {
 const setSetup = (args) => {
   try {
     if (Object.keys(args).length) {
-      FN.onRequest({ command: 'setSetup', value: { ...args } })
+      console.log(args)
+      FN.onRequest({
+        command: 'setSetup',
+        value: { ipaddress: args.ipaddress, port: Number(args.port) }
+      })
     }
   } catch (e) {
     console.error(e)

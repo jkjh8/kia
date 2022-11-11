@@ -21,6 +21,9 @@ onMounted(() => {
         console.log(args.value)
         poweramps.value = args.value
         break
+      case 'response':
+        console.log(args.value)
+        break
       default:
         console.log('args')
         break

@@ -10,11 +10,25 @@ const getPoweramps = async () => {
 
 const addPoweramp = async (args) => {
   console.log(args)
-  await db.insert({ ...args, type: 'poweramps' })
+  await db.insert({ ...args, type: 'poweramps', status: false })
 }
 
 const removePoweramp = async (args) => {
   await db.remove({ _id: args._id })
 }
 
-export { getPoweramps, addPoweramp, removePoweramp }
+const changePowerStatus = async (args) => {
+  console.log(args)
+}
+
+const sendResponse = () => {
+  bw.fromId(1).webContents.send('onResponse', { type: 'response', value: 'ok' })
+}
+
+export {
+  getPoweramps,
+  addPoweramp,
+  removePoweramp,
+  changePowerStatus,
+  sendResponse
+}

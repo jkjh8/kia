@@ -1,9 +1,18 @@
 <script setup>
 import { useQuasar } from 'quasar'
 import DeviceRemoveDialog from 'src/components/dialogs/deviceRemoveDialog'
-import { poweramps, removePoweramp } from 'src/composables/usePoweramps'
+import {
+  poweramps,
+  removePoweramp,
+  changePower
+} from 'src/composables/usePoweramps'
 
 const $q = useQuasar()
+
+const changePowerStatus = (args) => {
+  $q.loading.show()
+  changePower({ ...args })
+}
 
 const openDeviceRemoveDialog = (args) => {
   $q.dialog({
@@ -67,7 +76,14 @@ const openDeviceRemoveDialog = (args) => {
           </q-td>
           <q-td key="actions" :props="props">
             <div class="q-gutter-x-sm row no-wrap justify-center">
-              <q-btn round flat size="sm" icon="power_settings_new" />
+              <q-btn
+                round
+                flat
+                size="sm"
+                icon="power_settings_new"
+                :color="props.row.status ? 'green' : 'red-4'"
+                @click="changePowerStatus(props.row)"
+              />
               <q-btn
                 round
                 flat
