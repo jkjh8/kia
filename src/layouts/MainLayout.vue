@@ -13,6 +13,7 @@ import {
 } from 'src/composables/usePoweramps'
 
 import ControlBtns from 'src/components/ControlBtns.vue'
+import AboutWindow from 'src/components/dialogs/aboutDialog.vue'
 
 const $r = useRouter()
 const $q = useQuasar()
@@ -35,6 +36,11 @@ onMounted(() => {
       case 'powerStatusRefresh':
         FN.onRequest({ command: 'getPoweramps' })
         powerStatusAll(args.value.power)
+        break
+      case 'about':
+        $q.dialog({
+          component: AboutWindow
+        })
         break
       default:
         console.log(args)
