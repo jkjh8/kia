@@ -4,7 +4,13 @@ import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
 
 import { getSetup } from 'src/composables/useSetup'
-import { poweramps } from 'src/composables/usePoweramps'
+import {
+  poweramps,
+  powerampsStatus,
+  powerAll,
+  powerStatusAll,
+  chkPowerampsChannels
+} from 'src/composables/usePoweramps'
 
 import ControlBtns from 'src/components/ControlBtns.vue'
 
@@ -20,12 +26,15 @@ onMounted(() => {
       case 'poweramps':
         console.log(args.value)
         poweramps.value = args.value
+        chkPowerampsChannels(poweramps.value)
+        powerStatusAll(powerampsStatus.value)
         break
       case 'response':
         console.log(args.value)
         break
       case 'powerStatusRefresh':
         FN.onRequest({ command: 'getPoweramps' })
+        powerStatusAll(args.value.power)
         break
       default:
         console.log(args)
@@ -36,6 +45,16 @@ onMounted(() => {
 
   FN.onRequest({ command: 'started' })
 })
+
+const selColor = (num) => {
+  if (num === 0) {
+    return 'red'
+  } else if (num === 1) {
+    return 'yellow'
+  } else {
+    return 'green'
+  }
+}
 
 $q.dark.set(true)
 </script>
@@ -49,8 +68,11 @@ $q.dark.set(true)
           <q-avatar class="pointer" size="60px" @click="$r.push('/')">
             <img src="logo_black.jpeg" />
           </q-avatar>
-          <div>
-            <div class="header-font">전원 제어</div>
+          <div class="row justify-start">
+            <div class="header-font">
+              전원 제어
+              <q-badge rounded :color="selColor(powerAll)"></q-badge>
+            </div>
           </div>
         </div>
         <!-- control buttons -->
