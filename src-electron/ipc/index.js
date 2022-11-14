@@ -1,14 +1,14 @@
-import { BrowserWindow, ipcMain } from 'electron'
+import { BrowserWindow as bw, ipcMain } from 'electron'
 import db from '../db'
 
 import { getSetup, setSetup } from './setupFunctions'
 import { getPoweramps, addPoweramp, removePoweramp } from './powerampFunctions'
 import { createMulticast } from '../net/multicast'
+import { udpSend } from '../net/udp'
 
 let setupValue
 
 ipcMain.on('onRequest', async (e, args) => {
-  const mw = BrowserWindow.fromId(1)
   try {
     switch (args.command) {
       case 'started':
@@ -35,12 +35,23 @@ ipcMain.on('onRequest', async (e, args) => {
         await removePoweramp(args.value)
         getPoweramps()
         break
+      case 'powerAllOn':
+        udpSend('*ALL-ON#', setupValue.ipaddress, setupValue.port)
+        sendOk()
+        break
+      case 'powerAllOff':
+        udpSend('*ALL-OF#', setupValue.ipaddress, setupValue.port)
+        sendOk()
+        break
       case 'power':
-        console.log(args.value)
-        mw.webContents.send('onResponse', {
-          type: 'response',
-          value: 'ok'
-        })
+        udpSend(
+          `*${args.value.id < 0 ? args.value.id : '0' + args.value.id}-${
+            args.value.status ? 'OF' : 'ON'
+          }#`,
+          setupValue.ipaddress,
+          setupValue.port
+        )
+        sendOk()
         break
       default:
         console.log(args)
@@ -50,3 +61,10 @@ ipcMain.on('onRequest', async (e, args) => {
     console.error(e)
   }
 })
+
+const sendOk = () => {
+  bw.fromId(1).webContents.send('onResponse', {
+    type: 'response',
+    value: 'ok'
+  })
+}

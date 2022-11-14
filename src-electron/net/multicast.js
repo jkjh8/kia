@@ -1,4 +1,5 @@
-import { BrowserWindow } from 'electron'
+import { BrowserWindow as bw } from 'electron'
+import db from '../db'
 import dgram from 'dgram'
 
 let multicast = null
@@ -27,7 +28,17 @@ function createMulticast() {
       })
 
       multicast.on('message', (msg) => {
-        console.log(msg)
+        try {
+          const r = JSON.parse(msg)
+          console.log(r)
+          updateStatus(r)
+          bw.fromId(1).webContents.send('onResponse', {
+            type: 'powerStatusRefresh',
+            value: r
+          })
+        } catch (e) {
+          console.error(e)
+        }
       })
 
       multicast.on('error', (err) => {
@@ -50,6 +61,14 @@ const multicastSender = (msg) => {
     }
   } catch (e) {
     console.error('Multicast send Error', e)
+  }
+}
+
+const updateStatus = (args) => {
+  if ('power' in args) {
+    args.power.forEach(async (v, i) => {
+      db.update({ id: i + 1 }, { $set: { status: v } })
+    })
   }
 }
 

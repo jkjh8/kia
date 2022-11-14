@@ -24,8 +24,11 @@ onMounted(() => {
       case 'response':
         console.log(args.value)
         break
+      case 'powerStatusRefresh':
+        FN.onRequest({ command: 'getPoweramps' })
+        break
       default:
-        console.log('args')
+        console.log(args)
         break
     }
     $q.loading.hide()

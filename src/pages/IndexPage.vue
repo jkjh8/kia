@@ -45,13 +45,6 @@ const openDeviceRemoveDialog = (args) => {
           sortable: true
         },
         {
-          name: 'status',
-          align: 'center',
-          label: 'STATUS',
-          field: 'status',
-          sortable: true
-        },
-        {
           name: 'actions',
           align: 'center',
           label: 'ACTIONS'
@@ -70,9 +63,6 @@ const openDeviceRemoveDialog = (args) => {
           </q-td>
           <q-td key="name" :props="props">
             {{ props.row.name }}
-          </q-td>
-          <q-td key="status" :props="props">
-            {{ props.row.status }}
           </q-td>
           <q-td key="actions" :props="props">
             <div class="q-gutter-x-sm row no-wrap justify-center">
