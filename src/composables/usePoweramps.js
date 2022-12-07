@@ -38,7 +38,7 @@ const powerStatusAll = (arr) => {
 
 const chkPowerampsChannels = (arr) => {
   try {
-    powerampsStatus.value = new Array(4).fill(0)
+    powerampsStatus.value = new Array(64).fill(0)
     for (let i = 0; i < arr.length; i++) {
       if (arr[i].status) {
         powerampsStatus.value[arr[i].id - 1] = 1

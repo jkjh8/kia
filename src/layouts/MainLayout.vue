@@ -62,6 +62,10 @@ const selColor = (num) => {
   }
 }
 
+const gotoHome = () => {
+  $r.push('/')
+}
+
 $q.dark.set(true)
 </script>
 
@@ -71,11 +75,11 @@ $q.dark.set(true)
     <q-header class="text-grey-2" style="background: #00000000">
       <q-toolbar class="row justify-between">
         <div class="q-pa-sm q-gutter-x-md row items-center">
-          <q-avatar class="pointer" size="60px" @click="$r.push('/')">
+          <q-avatar class="pointer" size="60px" @click="gotoHome()">
             <img src="logo_black.jpeg" />
           </q-avatar>
           <div class="row justify-start">
-            <div class="header-font">
+            <div class="header-font pointer" @click="gotoHome()">
               전원 제어
               <q-badge rounded :color="selColor(powerAll)"></q-badge>
             </div>

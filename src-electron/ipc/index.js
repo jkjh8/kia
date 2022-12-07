@@ -18,7 +18,8 @@ ipcMain.on('onRequest', async (e, args) => {
         createMulticast()
         break
       case 'setSetup':
-        setSetup(args.value)
+        await setSetup(args.value)
+        setupValue = await getSetup()
         break
       case 'getSetup':
         setupValue = await getSetup()

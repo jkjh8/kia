@@ -55,6 +55,10 @@ const refreshAll = async () => {
       <TooltipDelay msg="ALL POWER"></TooltipDelay>
     </q-btn>
 
+    <q-btn icon="tv" round flat to="/video">
+      <TooltipDelay msg="VIDEO"></TooltipDelay>
+    </q-btn>
+
     <q-separator vertical inset />
 
     <q-btn icon="settings" color="grey-4" round flat @click="openSetupDialog">

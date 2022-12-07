@@ -5,12 +5,16 @@ const setup = ref({
   port: 12302
 })
 
+const videoUrl1 = ref('')
+const videoUrl2 = ref('')
+
 const getSetup = (args) => {
   console.log('getsetup', args)
   try {
     if (Object.keys(args).length) {
-      setup.value.ipaddress = args.value.ipaddress
-      setup.value.port = args.value.port
+      console.log(args)
+      setup.value.ipaddress = args.ipaddress
+      setup.value.port = args.port
     }
   } catch (e) {
     console.error(e)
@@ -31,4 +35,4 @@ const setSetup = (args) => {
   }
 }
 
-export { setup, getSetup, setSetup }
+export { setup, videoUrl1, videoUrl2, getSetup, setSetup }
