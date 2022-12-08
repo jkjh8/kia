@@ -2,7 +2,11 @@
 import { useQuasar } from 'quasar'
 
 import { setSetup } from 'src/composables/useSetup.js'
-import { addPoweramp, getPoweramps } from 'src/composables/usePoweramps.js'
+import {
+  addPoweramp,
+  getPoweramps,
+  changeAllPower
+} from 'src/composables/usePoweramps.js'
 
 import TooltipDelay from 'src/components/TooltipDelay.vue'
 import SetupDialog from 'src/components/dialogs/setupDialog.vue'
@@ -24,7 +28,11 @@ const openPowerDialog = () => {
   $q.dialog({
     component: PowerDialog
   }).onOk((v) => {
-    console.log(v)
+    if (v) {
+      FN.onRequest({ command: 'powerAllOn' })
+    } else {
+      FN.onRequest({ command: 'powerAllOff' })
+    }
   })
 }
 

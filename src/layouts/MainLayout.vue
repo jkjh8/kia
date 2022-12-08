@@ -35,7 +35,7 @@ onMounted(() => {
         break
       case 'powerStatusRefresh':
         FN.onRequest({ command: 'getPoweramps' })
-        powerStatusAll(args.value.power)
+        powerStatusAll(args.value.status)
         break
       case 'about':
         $q.dialog({

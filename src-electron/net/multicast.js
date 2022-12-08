@@ -67,7 +67,7 @@ const multicastSender = (msg) => {
 const updateStatus = (args) => {
   if ('status' in args) {
     args.status.forEach(async (v, i) => {
-      db.update({ id: i + 1 }, { $set: { status: v } })
+      await db.update({ id: i + 1 }, { $set: { status: v } })
     })
   }
 }
